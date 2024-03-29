@@ -1,4 +1,4 @@
-﻿namespace ThePretendCompanyApplication;
+﻿ namespace ThePretendCompanyApplication;
 
 class Program
 {
