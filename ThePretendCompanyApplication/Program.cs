@@ -10,7 +10,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        List<Employee> employeeList = Data.GetEmployees();
+        // List<Employee> employeeList = Data.GetEmployees();
         // var filteredEmployees = employeeList.Filter(emp => emp.IsManager == true );
         // var filteredEmployees = employeeList.Filter(emp => emp.AnnualSalary < 50000);
 
@@ -23,17 +23,44 @@ class Program
         //     Console.WriteLine();
         // }
 
-        List<Department> departmentList = Data.GetDepartments();
+        // List<Department> departmentList = Data.GetDepartments();
 
         // var filteredDepartments = departmentList.Where(dept => dept.ShortName == "TE" || dept.ShortName == "HR");
-        var filteredDepartments = departmentList.Filter(dept => dept.Id > 1);
-        foreach (var department in filteredDepartments)
-        {
-            Console.WriteLine($"Id: {department.Id}");
-            Console.WriteLine($"Short Name: {department.ShortName}");
-            Console.WriteLine($"Long Name: {department.LongName}");
-            Console.WriteLine();
-        }
+        // var filteredDepartments = departmentList.Filter(dept => dept.Id > 1);
+        // var filteredDepartments = departmentList.Where(dept => dept.ShortName == "TE" || dept.ShortName == "HR");
+        // foreach (var department in filteredDepartments)
+        // {
+        //     Console.WriteLine($"Id: {department.Id}");
+        //     Console.WriteLine($"Short Name: {department.ShortName}");
+        //     Console.WriteLine($"Long Name: {department.LongName}");
+        //     Console.WriteLine();
+        // }
+
+        List<Employee> employeeList = Data.GetEmployees();
+        List<Department> departmentList = Data.GetDepartments();
+
+        var resultList = from emp in employeeList
+                             join dept in departmentList
+                             on emp.DepartmentId equals dept.Id
+                           //  where dept.ShortName == "FN" || dept.ShortName == "TE"
+                             select new
+                             {
+                                 FirstName = emp.FirstName,
+                                 LastName = emp.LastName,
+                                 AnnualSalary = emp.AnnualSalary,
+                                 Manager = emp.IsManager,
+                                 Department = dept.LongName
+                             };
+
+         foreach (var employee in resultList)
+            {
+                Console.WriteLine($"First Name: {employee.FirstName}");
+                Console.WriteLine($"Last Name: {employee.LastName}");
+                Console.WriteLine($"Annual Salary: {employee.AnnualSalary}");
+                Console.WriteLine($"Manager: {employee.Manager}");
+                Console.WriteLine($"Department: {employee.Department}");
+                Console.WriteLine();
+            }
 
 
         Console.ReadLine();
